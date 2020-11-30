@@ -1,0 +1,44 @@
+body {
+    background-color: lightslategray;
+}
+
+.forms {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    height: 100vh;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+#search-button {
+    width: 80px;
+}
+
+.form-note {
+    color: white;
+    margin-top: 75px;
+    font-size: 1.6em;
+}
+
+#drop-area {
+    background-color: white;
+    border: 2px solid #ccc;
+    width: 480px;
+    font-family: sans-serif;
+    min-height: 600px;
+}
+
+#drop-area.highlight {
+    border-color: lightgray;
+}
+
+.form-button {
+    padding: 5px;
+    width: 80px;
+}

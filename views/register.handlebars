@@ -1,0 +1,64 @@
+<div class="forms">
+    <form action="/register" method="POST">
+        {{!-- 
+            1)A label and an input are connected by an id(input) and a for(label)
+            2)The input [type] determines its functionality: text, password, email
+            3)[name] is for the naming the form <node /> for the backend API (also the widget (or "column names" in your db))
+            4)[value] is the actual string text
+            5)[placeholder] placeholder text
+            x)An input with a [type=submit] will submit the whole form
+              We can specify the type of request or [method] we want GET, POST, DELETE, PUT
+              and which route we want to go with [action]
+            
+            y)[name] attributes should have camelCase for consistency in js
+            z)bem methodology ./#blockName-elemName_modName_modVal
+            --}}
+
+        <div class="errors">
+            {{#each messages}}
+            <p>{{this}}</p>
+            {{/each}}
+        </div>
+
+
+        <label for="form-username">
+            Username
+        </label>
+        <input type="text" id="form-username" name="username" placeholder="Username" autocomplete="off"
+            value="{{ uName }}" />
+
+        <label for="form-email">
+            Email
+        </label>
+        <input {{!-- type="email"  // Commented for assignment purposes --}} type="text" id="form-email" name="email"
+            placeholder="Email" autocomplete="off" value="{{ email }}" />
+        <label for="form-password">
+            Password
+        </label>
+        <input id="form-password" type="password" name="password" placeholder="Password"
+            {{!-- autocomplete="off" --}} />
+
+
+        <input id="form-submit" type="submit" value="SIGN UP" />
+    </form>
+    <form action="/login" method="POST">
+
+        <div class="errors">
+            {{#each messages}}
+            <p>{{this}}</p>
+            {{/each}}
+        </div>
+
+        <label for="form-email">
+            Email
+        </label>
+        <input type="text" id="form-email" name="email" placeholder="Email" autocomplete="off" value="{{ email }}" />
+        <label for="form-password">
+            Password
+        </label>
+        <input id="form-password" type="password" name="password" placeholder="Password" />
+
+        <input id="login-button" type="submit" value="LOGIN" />
+    </form>
+
+</div>

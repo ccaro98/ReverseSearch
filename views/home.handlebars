@@ -1,0 +1,17 @@
+<div id="drop-area">
+
+    <form id="uploadForm" method="post" enctype="multipart/form-data" class="my-form" action="/search" ref="uploadForm">
+        <label for="form-input">
+            Search it, Buy it!
+        </label>
+        <input type="file" class="form-input" id="file-pb" name="file" onchange="handleFiles(files)">
+
+        <div id="gallery"></div>
+
+        <input class="form-button" type="submit" value="Upload">
+
+    </form>
+
+</div>
+
+<script src="js/dragndrop.js" type="text/javascript"></script>
