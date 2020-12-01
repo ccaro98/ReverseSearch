@@ -84,9 +84,9 @@ module.exports.getUsersByEmail = (inEmail) => {
 module.exports.validateUser = (data) => {
     return new Promise((resolve, reject) => {
         if (data) {
-            this.getUsersByEmail(data.email).then((foundUser) => {
+            this.getUsersByEmail(data.emailLogin).then((foundUser) => {
                 
-                bcrypt.compare(data.password, foundUser[0].password).then((pwMatches) => {
+                bcrypt.compare(data.passwordLogin, foundUser[0].password).then((pwMatches) => {
                     if (pwMatches) {
                         // console.log(foundUser[0])
                         resolve(foundUser)

@@ -26,24 +26,42 @@ app.use(fileUpload());
 
 // Sessions
 const session = require("express-session");
+//const { Router } = require("express");
 
 // Cookie Parser
 
+app.use(session({
+    cookieName: "session",
+    secret: "tryKappaRev",
+    duration: 20 * 60 * 100, //duration Of current session
+    activeDuration: 1/ 60/60 * 1000 // extension of the session 1 min per request
+    }));
+
 // Middleware
 
+function isLoggedIn(req,res,next){
+    if(!req.session.user){
+        res.redirect("/register");
+    }else{
+        next();
+    }
+}
+
 app.get('/', (req, res) => {
+    res.render('register')
+})
+
+app.get('/search', isLoggedIn, (req, res) => {
     res.render('home')
 })
 
-app.get('/search', (req, res) => {
-    res.render('home')
-})
-
-app.get('/result', (req, res) => {
+app.get('/result', isLoggedIn,(req, res) => {
     res.render('result')
 })
 
-app.post('/search', (req, res) => {
+
+
+app.post('/search', isLoggedIn, (req, res) => {
     if(!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded');
     }
@@ -88,24 +106,24 @@ app.post('/register', (req, res) => {
     
 
      // Email Regex anyword+@+anyword+.+alphanumeric
-     if (req.body.email == '') {
+     if (req.body.emailRegister == '') {
 
         errors.messages.push(`Email required`)
     } else {
-        if (!req.body.email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
+        if (!req.body.emailRegister.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
 
             errors.messages.push(`Email format invalid`)
         } else {
-            errors.email = req.body.email;
+            errors.email = req.body.emailRegister;
         }
     }
 
     // 1 Lcase/Ucase/#/schar && 4 to 15 chars
-    if (req.body.password == '' ) {
+    if (req.body.passwordRegister == '' ) {
 
         errors.messages.push('Password Required')
 
-    } else if (!req.body.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{4,15}$/)) {
+    } else if (!req.body.passwordRegister.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{4,15}$/)) {
 
         errors.messages.push('Password requires 4-15 Characters and 1 Lowercase/Uppercase/Number/Special Character')
     }
@@ -117,8 +135,8 @@ app.post('/register', (req, res) => {
     } else {
 
         db.addUser(req.body).then((data) => {
-            // req.session.user = data;
-            res.redirect('/')//, {users : data}) 
+            req.session.user = data;
+            res.redirect('/',{users : data }) 
         }).catch((err) => {
             console.log(`Error adding user ${err}`)
             res.redirect('/register')
@@ -135,23 +153,23 @@ app.post('/login', (req, res) => {
         email: ''
     };
 
-    if (req.body.email == '') {
+    if (req.body.emailLogin == '') {
         errors.messages.push(`Email required`)
 
     } else {
-        if (!req.body.email.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+        if (!req.body.emailLogin.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
 
             errors.messages.push(`Email format invalid`)
         } else {
-            errors.email = req.body.email;
+            errors.email = req.body.emailLogin;
         }
     }
 
-    if (req.body.password == '' ) {
+    if (req.body.passwordLogin == '' ) {
 
         errors.messages.push(`Password Required`)
 
-    } else if (!req.body.password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{4,15}$/)) {
+    } else if (!req.body.passwordLogin.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{4,15}$/)) {
 
         errors.messages.push(`Password requires 4-15 Characters and 1 Lowercase / Uppercase / Number / Special Character`)
     }
@@ -166,12 +184,13 @@ app.post('/login', (req, res) => {
         db.validateUser(req.body)
         .then((data) => {
             // Logs in a user
-            // req.session.user = data[0];
-            // console.log(req.session.user)
+            req.session.user = data[0];
+            console.log(req.session.user)
 
-            res.render('home')
-            // res.redirect("/", {
-            //     // users: data[0]
+            res.render('home',{
+                data : req.session.user, 
+            })
+            //res.redirect("/", {
             // })
             // res.redirect('/dashboard')
 
@@ -183,6 +202,12 @@ app.post('/login', (req, res) => {
     }
 
 })
+
+app.get("/logout", function(req, res) {
+    req.session.destroy()
+    res.redirect("/register")
+});
+
 
 
 

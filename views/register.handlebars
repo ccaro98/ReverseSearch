@@ -24,23 +24,24 @@
         <label for="form-username">
             Username
         </label>
-        <input type="text" id="form-username" name="username" placeholder="Username" autocomplete="off"
+        <input type="text" id="form-username-register" name="username" placeholder="Username" autocomplete="off"
             value="{{ uName }}" />
 
         <label for="form-email">
             Email
         </label>
-        <input {{!-- type="email"  // Commented for assignment purposes --}} type="text" id="form-email" name="email"
+        <input {{!-- type="email"  // Commented for assignment purposes --}} type="text" id="form-email" name="emailRegister"
             placeholder="Email" autocomplete="off" value="{{ email }}" />
         <label for="form-password">
             Password
         </label>
-        <input id="form-password" type="password" name="password" placeholder="Password"
+        <input id="form-password-register" type="password" name="passwordRegister" placeholder="Password"
             {{!-- autocomplete="off" --}} />
 
 
         <input id="form-submit" type="submit" value="SIGN UP" />
     </form>
+    
     <form action="/login" method="POST">
 
         <div class="errors">
@@ -52,13 +53,15 @@
         <label for="form-email">
             Email
         </label>
-        <input type="text" id="form-email" name="email" placeholder="Email" autocomplete="off" value="{{ email }}" />
+        <input type="text" id="form-email-login" name="emailLogin" placeholder="Email" autocomplete="off" value="{{ email }}" />
         <label for="form-password">
             Password
         </label>
-        <input id="form-password" type="password" name="password" placeholder="Password" />
+        <input id="form-password-login" type="password" name="passwordLogin" placeholder="Password" />
 
         <input id="login-button" type="submit" value="LOGIN" />
     </form>
 
 </div>
+
+<script src="js/cookie.js" type="text/javascript"></script>
