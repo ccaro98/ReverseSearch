@@ -1,3 +1,5 @@
+
+<h1>Search it, Buy it!</h1>
 <div class="forms">
     <form action="/register" method="POST">
         {{!-- 
@@ -24,22 +26,22 @@
         <label for="form-username">
             Username
         </label>
-        <input type="text" id="form-username-register" name="username" placeholder="Username" autocomplete="off"
+        <input class="form-input" type="text" id="form-username-register" name="username" placeholder="Username" autocomplete="off"
             value="{{ uName }}" />
 
         <label for="form-email">
             Email
         </label>
         <input {{!-- type="email"  // Commented for assignment purposes --}} type="text" id="form-email" name="emailRegister"
-            placeholder="Email" autocomplete="off" value="{{ email }}" />
+            class="form-input" placeholder="Email" autocomplete="off" value="{{ email }}" />
         <label for="form-password">
             Password
         </label>
-        <input id="form-password-register" type="password" name="passwordRegister" placeholder="Password"
+        <input class="form-input" id="form-password-register" type="password" name="passwordRegister" placeholder="Password"
             {{!-- autocomplete="off" --}} />
 
 
-        <input id="form-submit" type="submit" value="SIGN UP" />
+        <input class="form-button" id="form-submit" type="submit" value="SIGN UP" />
     </form>
     
     <form action="/login" method="POST">
@@ -53,13 +55,13 @@
         <label for="form-email">
             Email
         </label>
-        <input type="text" id="form-email-login" name="emailLogin" placeholder="Email" autocomplete="off" value="{{ email }}" />
+        <input class="form-input" type="text" id="form-email-login" name="emailLogin" placeholder="Email" autocomplete="off" value="{{ email }}" />
         <label for="form-password">
             Password
         </label>
-        <input id="form-password-login" type="password" name="passwordLogin" placeholder="Password" />
+        <input class="form-input" id="form-password-login" type="password" name="passwordLogin" placeholder="Password" />
 
-        <input id="login-button" type="submit" value="LOGIN" />
+        <input class="form-button" id="login-button" type="submit" value="LOGIN" />
     </form>
 
 </div>
