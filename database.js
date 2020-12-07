@@ -6,9 +6,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username: {type: String, unique: true},
-    email: {type: String, unique: true},
-    password: String
+    username: {type: String, unique:true},
+    emailRegister: {type: String, unique: true},
+    passwordRegister: {type:String}
 })
 
 let Users;
@@ -38,12 +38,14 @@ module.exports.addUser = (data) => {
         }
 
         let newUser = new Users(data);
-
+        console.log(newUser);
         bcrypt.genSalt(10)
-        .then(salt=>bcrypt.hash(newUser.password,salt))
+        .then(salt=>bcrypt.hash(newUser.passwordRegister,salt))
         .then(hash=>{
-            newUser.password = hash;
-            newUser.isAdmin = false;
+            newUser.passwordRegister = hash;
+            
+            console.log("2------2");
+            console.log(newUser);
 
             newUser.save((err) => {
                 if (err) {
@@ -66,7 +68,7 @@ module.exports.addUser = (data) => {
 
 module.exports.getUsersByEmail = (inEmail) => {
     return new Promise ((resolve, reject) => {
-        Users.find({email: inEmail})
+        Users.find({emailRegister: inEmail})
         .exec()
         .then((returnedUsers) => {
 
@@ -86,7 +88,7 @@ module.exports.validateUser = (data) => {
         if (data) {
             this.getUsersByEmail(data.emailLogin).then((foundUser) => {
                 
-                bcrypt.compare(data.passwordLogin, foundUser[0].password).then((pwMatches) => {
+                bcrypt.compare(data.passwordLogin, foundUser[0].passwordRegister).then((pwMatches) => {
                     if (pwMatches) {
                         // console.log(foundUser[0])
                         resolve(foundUser)

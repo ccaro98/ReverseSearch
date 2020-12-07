@@ -1,5 +1,3 @@
-console.log("Cristian es Ghe")
-
 const cookieStorage = {
     getItem: (key) =>{
 
@@ -21,7 +19,6 @@ const consetPropertyName = "jdc_consent";
 
 const shouldShowPopup = () => !storageType.getItem(consetPropertyName);
 const saveToStorage = () => storageType.setItem(consetPropertyName, true);
-
 
 window.onload = () => {
     if(shouldShowPopup()){

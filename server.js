@@ -72,8 +72,6 @@ app.get('/result', isLoggedIn,(req, res) => {
     res.render('result')
 })
 
-
-
 app.post('/search',isLoggedIn, (req, res) => {
     if(!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded');
@@ -104,9 +102,15 @@ app.post('/search',isLoggedIn, (req, res) => {
                 };
 
                 const callback = function(data) {
-                    data = data.organic_results.slice(0,10)
-                    console.log(data)
-                    res.render('result',{apiData:data});
+                    if(data && data.organic_results)
+                    {
+                        data = data.organic_results.slice(0,10)
+                        console.log(data)
+                        res.render('result',{apiData:data});
+                    }else{
+                        console.log("No matches found")
+                    
+                    }
                 };
 
 // Show result as JSON
